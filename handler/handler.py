@@ -1,17 +1,14 @@
 import logging
 
-try:
-    from ..plugins.responder.tlg import send_message, send_log
-    from ..plugins.duckling.typonder import replace_typos, prepare_data_tokenize_str
-    from ..plugins.config import cfg
-    from ..plugins.duckling.classifier import Classifier
-    from ..plugins.db.query import insert_value_to_audit
-except Exception as e:
-    from plugins.responder.tlg import send_message, send_log
-    from plugins.duckling.typonder import replace_typos, prepare_data_tokenize_str
-    from plugins.config import cfg
-    from plugins.duckling.classifier import Classifier
-    from plugins.db.query import insert_value_to_audit
+
+from function.plugins.responder.tlg import send_message, send_log
+from function.plugins.duckling.typonder import replace_typos, prepare_data_tokenize_str
+from function.plugins.config import cfg
+from function.plugins.duckling.classifier import Classifier
+from function.plugins.db.query import insert_value_to_audit
+
+# from function.plugins.inputer import inputter
+# from function.plugins.helper import timing
 
 tlg_logger: str = cfg.app.url.tlg
 
@@ -79,7 +76,6 @@ def inputter(res: dict):
             # status = False
             if use_tlg_logger:
                 logger_string = f"☢️ by the text - {txt} nothing found."
-                # send_message(url=tlg_logger, text=logger_string, chat_id=81432612)
                 send_log(
                     log_str=logger_string,
                     bot_name="sberauto",

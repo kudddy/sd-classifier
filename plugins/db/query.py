@@ -1,9 +1,7 @@
 from gql import gql
 
-try:
-    from ..db.init import client
-except Exception as e:
-    from plugins.db.init import client
+
+from ..db.init import client
 
 
 # Пример вызова DataSpace с подписью

@@ -5,16 +5,11 @@ from queue import Queue
 import dill
 
 
-try:
-    from ..config import cfg
-    from ...plugins.db.query import insert_value_to_model
-    from ...plugins.db.query import get_base64_model_from_base
-    from ..helper import timing
-except Exception as e:
-    from plugins.config import cfg
-    from plugins.db.query import insert_value_to_model
-    from plugins.db.query import get_base64_model_from_base
-    from plugins.helper import timing
+
+from ..config import cfg
+from ...plugins.db.query import insert_value_to_model
+from ...plugins.db.query import get_base64_model_from_base
+from ..helper import timing
 
 
 def split_string(text: str, chunk_size: int) -> list:

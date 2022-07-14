@@ -7,14 +7,10 @@ from queue import Queue
 
 import dill
 
-try:
-    from ..config import cfg
-    from ...plugins.duckling.morph_analyzer import text_list
-    from ...plugins.db.upload_model import download_model
-except Exception as e:
-    from plugins.config import cfg
-    from plugins.duckling.morph_analyzer import text_list
-    from plugins.db.upload_model import download_model
+
+from ..config import cfg
+from ...plugins.duckling.morph_analyzer import text_list
+from ...plugins.db.upload_model import download_model
 
 
 class Preprocessing:

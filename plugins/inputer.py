@@ -1,17 +1,10 @@
 import logging
 
-try:
-    from ..plugins.responder.tlg import send_message, send_log
-    from ..plugins.duckling.typonder import replace_typos, prepare_data_tokenize_str
-    from ..plugins.config import cfg
-    from ..plugins.duckling.classifier import Classifier
-    from ..plugins.db.query import insert_value_to_audit
-except Exception as e:
-    from plugins.responder.tlg import send_message, send_log
-    from plugins.duckling.typonder import replace_typos, prepare_data_tokenize_str
-    from plugins.config import cfg
-    from plugins.duckling.classifier import Classifier
-    from plugins.db.query import insert_value_to_audit
+
+from ..plugins.responder.tlg import send_log
+from ..plugins.duckling.typonder import prepare_data_tokenize_str
+from ..plugins.config import cfg
+from ..plugins.duckling.classifier import Classifier
 
 use_tlg_logger: bool = cfg.app.main.use_tlg_logger
 

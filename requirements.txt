@@ -81,3 +81,4 @@ PyYAML~=5.4.1
 Flask~=2.0.1
 pymorphy2~=0.9.1
 flask_json
+pydantic

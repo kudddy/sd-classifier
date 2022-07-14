@@ -3,14 +3,10 @@ import logging
 
 from requests import request
 
-try:
-    from ..helper import timing
-    from ..config import cfg
-    from ...plugins.db.apig_sdk import signer
-except Exception as e:
-    from plugins.helper import timing
-    from plugins.db.apig_sdk import signer
-    from plugins.config import cfg
+
+from ..helper import timing
+from ..config import cfg
+from ...plugins.db.apig_sdk import signer
 
 dataspace_url = cfg.app.auth.url
 app_key = cfg.app.auth.key

@@ -2,12 +2,10 @@ import requests.auth
 from gql import Client, gql
 from gql.transport.requests import RequestsHTTPTransport
 
-try:
-    from ..config import cfg
-    from .apig_sdk import signer
-except Exception as e:
-    from plugins.config import cfg
-    from plugins.db.apig_sdk import signer
+
+from ..config import cfg
+from .apig_sdk import signer
+
 
 dataspace_url = cfg.app.auth.url
 app_key = cfg.app.auth.key
