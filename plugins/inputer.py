@@ -1,10 +1,10 @@
 import logging
 
 
-from ..plugins.responder.tlg import send_log
-from ..plugins.duckling.typonder import prepare_data_tokenize_str
-from ..plugins.config import cfg
-from ..plugins.duckling.classifier import Classifier
+from .responder.tlg import send_log
+from .duckling.typonder import prepare_data_tokenize_str
+from .config import cfg
+from .duckling.classifier import Classifier
 
 use_tlg_logger: bool = cfg.app.main.use_tlg_logger
 
