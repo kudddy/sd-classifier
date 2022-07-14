@@ -4,7 +4,7 @@ from gql.transport.requests import RequestsHTTPTransport
 
 
 from ..config import cfg
-from .apig_sdk import signer
+from ..signer import Signer, HttpRequest
 
 
 dataspace_url = cfg.app.auth.url
@@ -18,10 +18,10 @@ class DataspaceAuth(requests.auth.AuthBase):
             print("APP_SECRET or APP_KEY is undefined. Request will not be signed")
             return r
 
-        sig = signer.Signer()
+        sig = Signer()
         sig.Key = app_key
         sig.Secret = app_secret
-        request = signer.HttpRequest(r.method, r.url, r.headers, r.body.decode('utf-8'))
+        request = HttpRequest(r.method, r.url, r.headers, r.body.decode('utf-8'))
         sig.Sign(request)
         r.headers = request.headers
         return r
