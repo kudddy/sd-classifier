@@ -3,10 +3,9 @@ import logging
 
 from requests import request
 
-
 from ..helper import timing
 from ..config import cfg
-from ...plugins.db.apig_sdk import signer
+from ..signer import Signer, HttpRequest
 
 dataspace_url = cfg.app.auth.url
 app_key = cfg.app.auth.key
@@ -17,7 +16,7 @@ log = logging.getLogger(__name__)
 
 log.setLevel(logging.DEBUG)
 
-sig = signer.Signer()
+sig = Signer()
 sig.Key = app_key
 sig.Secret = app_secret
 
@@ -76,10 +75,10 @@ def send_log(log_str: str, bot_name: str, func_host: str):
         }
     }
 
-    r = signer.HttpRequest("POST",
-                           func_host,
-                           {"Content-Type": "application/json", "x-stage": "RELEASE"},
-                           body=json.dumps(body))
+    r = HttpRequest("POST",
+                    func_host,
+                    {"Content-Type": "application/json", "x-stage": "RELEASE"},
+                    body=json.dumps(body))
     sig.Sign(r)
 
     data = request(r.method, r.scheme + "://" + r.host + r.uri, headers=r.headers, data=r.body, verify=False)
