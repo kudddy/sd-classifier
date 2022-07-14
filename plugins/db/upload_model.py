@@ -4,8 +4,6 @@ from queue import Queue
 
 import dill
 
-
-
 from ..config import cfg
 from ...plugins.db.query import insert_value_to_model
 from ...plugins.db.query import get_base64_model_from_base
@@ -52,37 +50,3 @@ def download_model(model_revision: str, queue: Queue):
             end = False
     model = dill.loads(codecs.decode(bin_file.encode(), "base64"))
     queue.put(model)
-
-
-# ### тест
-# import threading
-#
-#
-# def download_model_fast(model_revision: str) -> str:
-#     counter = 0
-#     limit = 250
-#     offset = 0
-#     bin_file = ""
-#     for off in range(5):
-#         t = threading.Thread(target=get_base64_model_from_base, args=(limit, offset, model_revision,))
-#         t.start()
-#
-#         offset += limit
-#
-#     res = [my_queue.get() for x in range(5)]
-#
-#     for data in res:
-#         lst = data['searchModelData']['elems']
-#         if len(lst) > 0:
-#             for dct in lst:
-#                 bin_file += dct['binText']
-#             offset += limit
-#             counter += 1
-#     print(bin_file)
-#     return bin_file
-
-
-# def job(start_position: int, limit: int):
-#     n_iter = number_of_string / limit
-
-

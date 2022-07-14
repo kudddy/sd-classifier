@@ -1,14 +1,12 @@
 import logging
+from prometheus_client import Summary
 
-
-from function.plugins.responder.tlg import send_message, send_log
+from function.plugins.responder.tlg import send_log
 from function.plugins.duckling.typonder import replace_typos, prepare_data_tokenize_str
 from function.plugins.config import cfg
 from function.plugins.duckling.classifier import Classifier
 from function.plugins.db.query import insert_value_to_audit
-
-# from function.plugins.inputer import inputter
-# from function.plugins.helper import timing
+from function.plugins.helper import timing
 
 tlg_logger: str = cfg.app.url.tlg
 
@@ -116,3 +114,19 @@ def inputter(res: dict):
                     "description": "error",
                     "target": predict_class
                 }}
+
+
+REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
+
+
+# Метод handlers. Этот метод будет вызываться при вызове функции
+@REQUEST_TIME.time()
+@timing
+def handler(request):
+    payload = request.form if request.form else request.json
+    resp = inputter(payload)
+    return (
+        resp
+        ,
+        200,
+        {"Content-Type": "application/json"})
