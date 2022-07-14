@@ -1,0 +1,19 @@
+app:
+  main:
+    service_name: sd
+    model_name: model_for_sd_ver_2
+    host: 0.0.0.0
+    port: 8080
+    use_tlg_logger: False
+    use_local_config: True
+    use_graph_ql: True
+    use_model: True
+  directory:
+    model_path: persistant/w2v/model_hh_fasttext
+    stop_words_path: persistant/stopwords.txt
+    classifier_path_glob: persistants/classifier/base_model_base64.txt
+  auth:
+    url: "***"
+    key: "***"
+    secret: "***"
+  token: ad7f8ba8-000b-11ec-9a03-0242ac130003
