@@ -7,6 +7,9 @@ from .config import cfg
 from .duckling.classifier import Classifier
 
 use_tlg_logger: bool = cfg.app.main.use_tlg_logger
+logger_url: str = cfg.app.logger.url
+bot_name: str = cfg.app.logger.name
+
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
@@ -42,37 +45,50 @@ def inputter(res: dict):
 
         if predict_class == "model not loaded yet":
             if use_tlg_logger:
-                logger_string = f"☢️ the text - {txt} has a class - {predict_class}. Go to another app!"
+                logger_string = f"☢️ the text - {txt} not processed because model not load yet!"
                 # send_message(url=tlg_logger, text=logger_string, chat_id=81432612)
                 send_log(
                     log_str=logger_string,
-                    bot_name="sberauto",
-                    func_host="https://smapi.pv-api.sbc.space/fn_df4f75ea_c184_4999_92ae_5f0f20ec9f2b"
+                    bot_name=bot_name,
+                    func_host=logger_url
                 )
-            status: bool = False
             return {"MESSAGE_NAME": "GET_CLASSIFIER_RESULT",
                     "CODE": 404,
-                    "STATUS": status,
+                    "STATUS": False,
                     "PAYLOAD": {
                         "description": "model not loaded yet",
                         "target": predict_class
                     }}
         elif predict_class == "model_not_use":
             log.debug(f'feature toggle is off')
-            status: bool = False
+            if use_tlg_logger:
+                logger_string = f"☢️ the text - {txt} not processed because feature toggle is off!"
+                # send_message(url=tlg_logger, text=logger_string, chat_id=81432612)
+                send_log(
+                    log_str=logger_string,
+                    bot_name=bot_name,
+                    func_host=logger_url
+                )
             return {"MESSAGE_NAME": "GET_CLASSIFIER_RESULT",
                     "CODE": 404,
-                    "STATUS": status,
+                    "STATUS": False,
                     "PAYLOAD": {
                         "description": "feature toggle is off",
                         "target": predict_class
                     }}
         else:
             log.debug("ok, send good response")
-            status: bool = True
+            if use_tlg_logger:
+                logger_string = f"✅️ the text - {txt} have class - {predict_class}. It is all be good!"
+                # send_message(url=tlg_logger, text=logger_string, chat_id=81432612)
+                send_log(
+                    log_str=logger_string,
+                    bot_name=bot_name,
+                    func_host=logger_url
+                )
             return {"MESSAGE_NAME": "GET_CLASSIFIER_RESULT",
                     "CODE": 200,
-                    "STATUS": status,
+                    "STATUS": True,
                     "PAYLOAD": {
                         "description": "OK",
                         "target": predict_class
@@ -84,12 +100,11 @@ def inputter(res: dict):
                   e)
         status = False
         if use_tlg_logger:
-            logger_string = f"🛑 some problems with text - {txt} ошибка - {str(e)[0:4095]}"
-            # send_message(url=tlg_logger, text=logger_string, chat_id=81432612)
+            logger_string = f"🛑 some problems with text - {txt} error - {str(e)[0:4095]}"
             send_log(
                 log_str=logger_string,
-                bot_name="sberauto",
-                func_host="https://smapi.pv-api.sbc.space/fn_df4f75ea_c184_4999_92ae_5f0f20ec9f2b"
+                bot_name=bot_name,
+                func_host=logger_url
             )
         logging.info(f'function done work incorrect with error - {e}')
         return {"MESSAGE_NAME": "GET_CLASSIFIER_RESULT",
